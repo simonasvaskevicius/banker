@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout>
+  <LinearLayout
+    android:id="@+id/container"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="48dp"
+    android:layout_height="48dp"
+    android:background="@drawable/rounded_square">
+    <TextView
+      android:id="@+id/nameLetter"
+      android:layout_width="match_parent"
+      android:layout_height="match_parent"
+      android:textColor="@color/black_effective"
+      android:autoSizeTextType="uniform"
+      android:padding="4dp"
+      android:gravity="center"/>
+  </LinearLayout>
+</layout>

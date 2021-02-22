@@ -1,0 +1,10 @@
+<resources>
+  <string name="app_name">banker</string>
+  <string name="card_provided">Card provided by Banker</string>
+  <string name="network_error">Something went wrong</string>
+  <string name="spent">Spent</string>
+  <string name="most_spent_on">Most spent on</string>
+  <string name="received">Received</string>
+  <string name="most_received_from">Most received for</string>
+  <string name="current_balance">Current balance</string>
+</resources>
