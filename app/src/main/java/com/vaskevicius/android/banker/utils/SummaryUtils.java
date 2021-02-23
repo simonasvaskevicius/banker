@@ -5,6 +5,7 @@ import com.vaskevicius.android.banker.data.models.Summary;
 import com.vaskevicius.android.banker.data.models.Transaction;
 import com.vaskevicius.android.banker.data.models.TransactionType;
 import java.math.BigDecimal;
+import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -24,7 +25,7 @@ public final class SummaryUtils {
   public static Summary getDaySummary(List<Transaction> transactions, String dateNormalFormat) {
     List<Transaction> localTransactions;
     localTransactions = transactions;
-    //Always use BigDecimal when working with money, because its more reliable with that
+    //I always use BigDecimal when working with money, because its more reliable with that
     BigDecimal amount = new BigDecimal("0");
 
     localTransactions = localTransactions.stream().filter(c -> c.getDate().equals(dateNormalFormat))
@@ -43,16 +44,38 @@ public final class SummaryUtils {
     return new Summary(TransactionType.TYPE_COMBINED, amount, new Date(dateNormalFormat).getDateObject());
   }
 
-  public static Summary getSummaryOnMonth(List<Transaction> transactions, java.util.Date date, String type) {
+  public static Summary getSummaryOnMonthByType(List<Transaction> transactions, java.util.Date date, String type) {
     List<Transaction> transactionList = transactions;
 
-    double spentAmount = transactionList.stream()
+    double amount = transactionList.stream()
         .filter(t -> t.getConvertedDate().getYear() == date.getYear()
             && t.getConvertedDate().getMonth() == date.getMonth())
         .filter(t -> t.getType().equals(type))
         .mapToDouble(t -> Double.parseDouble(t.getAmount())).sum();
 
-    return new Summary(type, type.equals(TransactionType.TYPE_DEBIT)? BigDecimal.valueOf((spentAmount*(-1))): BigDecimal.valueOf(spentAmount), date);
+    return new Summary(type, type.equals(TransactionType.TYPE_DEBIT)? BigDecimal.valueOf((amount*(-1))): BigDecimal.valueOf(amount), date);
+  }
+
+  public static List<Object> getTransactionsWithDates(List<Transaction> transactionList) {
+    List<Object> modifiedTransactionList = new ArrayList<>();
+    List<Transaction> localTransactions = new ArrayList<>();
+    localTransactions = transactionList;
+
+    for (int position = 0; position < localTransactions.size(); position++) {
+      Transaction transaction = localTransactions.get(position);
+      if (position != 0) {
+        //Because list comes sorted by date descending already, here we can just compare transactions day with previous transaction day.
+        if (!transaction.getDate().equals(localTransactions.get(position - 1).getDate())) {
+          modifiedTransactionList.add(new com.vaskevicius.android.banker.data.models.Date(transaction.getDate()));
+        }
+      } else {
+        //if position is 0, then new empty Transaction item, only have date in it. This item is first in list
+        modifiedTransactionList.add(new com.vaskevicius.android.banker.data.models.Date(transaction.getDate()));
+      }
+      //Adds transaction item to list
+      modifiedTransactionList.add(transaction);
+    }
+    return modifiedTransactionList;
   }
 
   public static Transaction getMostTransaction(List<Transaction> transactions, java.util.Date date,

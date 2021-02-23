@@ -41,7 +41,7 @@ public class MainActivity extends BaseActivity implements MainMvpView {
 
   @Override
   public void update(List<Transaction> transactions) {
-    binding.swipeRefresh.setRefreshing(!binding.swipeRefresh.isRefreshing() ? false : false);
+    binding.swipeRefresh.setRefreshing(false);
     updateUI(transactions);
   }
 
@@ -107,11 +107,11 @@ public class MainActivity extends BaseActivity implements MainMvpView {
     if (hasSummary) {
       binding.summaryView.setSpent(
           SummaryUtils
-              .getSummaryOnMonth(transactions, today, TransactionType.TYPE_DEBIT)
+              .getSummaryOnMonthByType(transactions, today, TransactionType.TYPE_DEBIT)
               .getAmount().doubleValue());
 
       binding.summaryView.setReceived(
-          SummaryUtils.getSummaryOnMonth(transactions, today,
+          SummaryUtils.getSummaryOnMonthByType(transactions, today,
               TransactionType.TYPE_CREDIT).getAmount().doubleValue());
 
       binding.summaryView.setMostSpent(

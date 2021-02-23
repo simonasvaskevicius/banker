@@ -1,7 +1,8 @@
 package com.vaskevicius.android.banker.ui.main;
 
 
-import static com.vaskevicius.android.banker.utils.FormattingUtils.getTransactionsWithDates;
+
+import static com.vaskevicius.android.banker.utils.SummaryUtils.getTransactionsWithDates;
 
 import android.content.Context;
 import android.graphics.Color;

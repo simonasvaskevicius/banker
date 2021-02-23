@@ -46,29 +46,6 @@ public final class FormattingUtils {
     return String.format("CVV %s", CVV);
   }
 
-
-  public static List<Object> getTransactionsWithDates(List<Transaction> transactionList) {
-    List<Object> modifiedTransactionList = new ArrayList<>();
-    List<Transaction> localTransactions = new ArrayList<>();
-    localTransactions = transactionList;
-
-        for (int position = 0; position < localTransactions.size(); position++) {
-      Transaction transaction = localTransactions.get(position);
-      if (position != 0) {
-        //Because list comes sorted by date descending already, here we can just compare transactions day with previous transaction day.
-        if (!transaction.getDate().equals(localTransactions.get(position - 1).getDate())) {
-          modifiedTransactionList.add(new com.vaskevicius.android.banker.data.models.Date(transaction.getDate()));
-        }
-      } else {
-        //if position is 0, then new empty Transaction item, only have date in it. This item is first in list
-        modifiedTransactionList.add(new com.vaskevicius.android.banker.data.models.Date(transaction.getDate()));
-      }
-      //Adds transaction item to list
-      modifiedTransactionList.add(transaction);
-    }
-    return modifiedTransactionList;
-  }
-
   public static String addLineBreaks(String input, int maxLineLength) {
     StringTokenizer tok = new StringTokenizer(input, " ");
     StringBuilder output = new StringBuilder(input.length());
